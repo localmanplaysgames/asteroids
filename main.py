@@ -48,6 +48,12 @@ def main():
         for asteroid in asteroids:
             if asteroid.collision(player):
                 sys.exit("Game over!")
+            for shot in shots:
+                if asteroid.collision(shot):
+                    shot.kill()
+                    asteroid.kill()
+
+        
         
         pygame.display.flip()
 
