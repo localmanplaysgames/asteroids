@@ -19,6 +19,8 @@ def main():
     clock = pygame.time.Clock()
     dt = 0
 
+    font = pygame.font.Font(None, 36)
+
     updatables = pygame.sprite.Group()
     drawables = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
@@ -47,12 +49,16 @@ def main():
 
         for asteroid in asteroids:
             if asteroid.collision(player):
-                sys.exit("Game over!")
+                sys.exit(f"Game over! Score: {player.score}")
             for shot in shots:
                 if asteroid.collision(shot):
                     shot.kill()
-                    asteroid.split()        
-        
+                    asteroid.split()
+                    player.update_score(asteroid.radius)
+
+        score_text = font.render(f"Score: {player.score}", True, "white")
+        screen.blit(score_text, (SCREEN_WIDTH - score_text.get_width() - 10, 10))    
+
         pygame.display.flip()
 
         dt = clock.tick(60) / 1000

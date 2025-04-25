@@ -1,4 +1,5 @@
 import pygame
+import sys
 from constants import *
 from circleshape import CircleShape
 from shot import Shot
@@ -9,6 +10,7 @@ class Player(CircleShape):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
         self.shot_timer = 0
+        self.score = 0
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -19,7 +21,7 @@ class Player(CircleShape):
         return [a, b, c]
     
     def draw(self, screen):
-        pygame.draw.polygon(screen, "white", self.triangle(), 2)
+        pygame.draw.polygon(screen, "blue", self.triangle(), 2)
 
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
@@ -41,6 +43,8 @@ class Player(CircleShape):
             if self.shot_timer <= 0:
                 self.shoot()
                 self.shot_timer = PLAYER_SHOOT_COOLDOWN
+        if keys[pygame.K_ESCAPE]:
+            sys.exit("Quit via escape key.")
 
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -49,3 +53,11 @@ class Player(CircleShape):
     def shoot(self):
         shot = Shot(self.position.x, self.position.y)
         shot.velocity = pygame.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+
+    def update_score(self, r):
+        if r == ASTEROID_MAX_RADIUS:
+            self.score += 1
+        elif r == ASTEROID_MIN_RADIUS:
+            self.score += 3
+        else:
+            self.score += 2
