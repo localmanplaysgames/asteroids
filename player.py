@@ -44,7 +44,7 @@ class Player(CircleShape):
                 self.shoot()
                 self.shot_timer = PLAYER_SHOOT_COOLDOWN
         if keys[pygame.K_ESCAPE]:
-            sys.exit("Quit via escape key.")
+            sys.exit(f"Player quit with escape key. Score before quit: {self.score}")
 
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
