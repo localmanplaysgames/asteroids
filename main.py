@@ -1,3 +1,5 @@
+# probably done with this for now.
+
 import pygame
 import sys
 from constants import *
