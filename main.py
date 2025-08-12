@@ -1,5 +1,6 @@
 import pygame
 from constants import *
+from player import Player
 
 def main():
     
@@ -9,16 +10,20 @@ def main():
 
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    running = True
     clock = pygame.time.Clock()
     dt = 0
 
-    while True:
+    while running:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return
+                running = False
 
+        ship = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+        
         screen.fill('black')
+        ship.draw(screen)
         pygame.display.flip()
 
         dt = clock.tick(60) / 1000
