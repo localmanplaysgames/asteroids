@@ -13,6 +13,11 @@ def main():
     running = True
     clock = pygame.time.Clock()
     dt = 0
+
+    updateables = pygame.sprite.Group()
+    drawables = pygame.sprite.Group()
+    Player.containers = (updateables, drawables)
+    
     ship = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
     while running:
@@ -21,10 +26,13 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        ship.update(dt)
-        
+        updateables.update(dt)
+
         screen.fill('black')
-        ship.draw(screen)
+
+        for thing in drawables:
+            thing.draw(screen)
+        
         pygame.display.flip()
 
         dt = clock.tick(60) / 1000
